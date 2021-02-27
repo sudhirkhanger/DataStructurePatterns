@@ -1,0 +1,331 @@
+* Data Structure and Algorithms
+** Union Find
+
+    - Dynamic Connectivity
+      - Reflexive - p is connected to p
+      - Symmetric - p is connected to q
+      - Transitive - p is connected to q and q is connected to r. So p is connected to r.
+      - Connected components - sets of objects that are mutually connected { 0 }, { 1 4 5 }, { 2 4 6 3}
+    - Quick-find (eager approach)
+    - Quick-union (lazy approach)
+      - root is the parent
+      - value is parent and index is child in the array
+    - Improvements
+      - Avoid tall trees. Weighting which means linking smaller tree to root of larger tree.
+
+** Analysis of Algorithms
+
+    - Observations
+      - Empirical analysis - run the program for various input sizes and measure running time.
+      - Doubling hypothesis - quick way to estimate b in a power-law relationship. Run program, doubling the size of the input. lg ration == b.
+      - Running time - We can use power law to calculate running time. Power law aN^b is applicable when lg-lg plot is a straight line.
+	- T(N) = aN^b where T(N) is the running time. b is the slope of lg-lg plot of T(N) and N which can be calculated as lg of ration of time taken in 2N to N. a can be calculated using the formula T(N) = aN^b. This can help you calculate the running time for any other value of N.
+    - Mathematical Models
+      - tilde notation - ignore lower order terms.
+    - order of growth
+      - 1, log N, N, N log N, N^2, N^3, 2^N
+    - Memory
+      - How many bytes a program uses?
+      - Basics
+	- Bit      0 or 1
+	- Byte     8 bits
+	- Megabyte 1 million or 2^20 bytes
+	- Gigabyte 1 billion or 2^30 bytes
+	- On a 64bit machine, a pointer takes 8 bytes of storage.
+      - Memory usage in bytes
+	- boolean    1
+	- byte       1
+	- char       2
+	- int        4
+	- float      4
+	- long       8
+	- double     8
+	- string     8
+	- char[]     2N + 24
+	- int[]      4N + 24
+	- double     8N + 24
+	- char[][]   ~2MN
+	- int[][]    ~4MN
+	- double[][] ~8MN
+	- Object overhead 16 bytes
+	- Extra overhead/reference 8 bytes - takes by each inner class
+	- Padding Each object uses a multiple of 8 bytes. If a program uses 28 bytes then in order for it to be using memory in multiple of 8 bytes it would actually be bumped to 32 bytes
+
+** Week 2 Stacks, Queues and Elementary Sorts
+*** Stacks and Queues
+
+   - pop/dequeue - remove an item
+   - push/enqueue - insert an item
+   - Stack - LIFO
+   - Queue - FIFO
+   - Repeated doubling - when the array is full, double its size. Amortized cost ~ N.
+   - Halve size when array is one-quarter full.
+
+** Week 3
+*** Quicksort
+**** Selection
+
+Problem - find kth largest item in an array of N items.
+Solution - sort the array. min = 0, max = N-1, median N/2
+
+** Week 4 Priority Queues, Elementary Symbol Tables
+*** Priority Queue
+
+- Queue which allow removal of largest and smallest items.
+- Binary Heap
+  - PQ with faster operations
+  - Binary means having two nodes
+  - Height of the binary tree of N nodes is lg N
+  - Heap Order - parent key are going to be no smaller than children key or vice versa
+  - largest/smallest - a[1]
+  - Parent of node k = k/2
+  - Children of node k are 2k and 2k+1
+  - swim - move item in the tree from bottom to the top
+  - sink - move item in the tree from top to the bottom
+  - Deletion - exchange the largest with the last element in the tree and sink to maintain heap order
+- Heap sort
+  - Arrange items in a binary tree
+  - Implement heap order
+  - Sort - if a[1] or the top most item is the largest then replace it with the last item and them sink to maintain heap order. Keep doing so that you get all the largest items ordered.
+
+** Binary Search Tree
+
+- Nodes or vertices
+- Edges or links or path
+
+** Hash tables
+
+- Provides mapping between keys and values via technique called Hashing.
+- Unique keys
+- key-value pairs
+- keys must be hashable
+- Hash function - assigns/maps a key to a whole number in a fixed range
+- If hash values of two keys are same then the values may be same. If hash values are not same then the values are definitely not the same.
+- Insertion, removal, and search average time O(1) and worst time O(n).
+- Load factor(α) = items in table/size of table. Measure of how full the hash table is allowed to get before it's size is increased.
+- Threshold value = Modulo N * Load factor or alpha. Defines when to resize the table.nn
+
+*** Separate Chaining - If two keys produce same hash then values are saved in another data structure like a linked list. Multiple key-value pair is associated with a single hash value. We use the key to find hash and the key itself to find the value in the associated data structure.
+
+*** Open Addressing - key-value pairs are stored in the table itself. Need to grow the size of table well before load factor is reached. Probing sequence or function is used to find next unoccupied slot.
+
+ - Probing function may end up cycling among same occupied slots. Need to avoid this issue.
+
+**** Linear Probing
+
+ - Probes according to some linear formula like P(x) = ax + b where a!=0 and b is a constant. If a and Modulo N are relatively prime then this linear probing function P(x) = ax will NOT be stuck in an infinite loop. A relatively prime numbers are those whose greatest common denominator is equal to 1.
+
+**** Quadratic Probing
+
+ - Probes according to a quadratic formula. P(x) = ax^2 + bx + c where a, b, and c are constants and a is not 0.
+ - How to avoid cycling throw same occupied slots?
+  - P(x) = x^2 where size of table is a prime number > 3 and α <= 1/2
+  - P(x) = (x^2 + x)/2 table size power of two
+  - P(x) = (-1^x)*x^2 table size = prime number N where N ≡ 3 mod 4.
+
+ - Resize the table by power of two (2^n).
+
+**** Double hashing
+
+ - Probes according to multiple of another hash function. P(k,x) = x*H2(k). H2(k) is a second hash function. Both hashing function should accept same type.
+ - There are universal hash functions that can be used.
+ - Avoid infinite loop. Size of the table should be an array. If δ = H2(k) mod N == 0 then set δ = 1. New position can be calculated as H1(k) + 1*δ mod N = new position.
+
+**** Pseudo random number generator
+
+** Balanced Binary Search Tree
+
+- Self balancing binary search tree.
+- Adjusts itself to maintain a low cost for faster operation.
+- Most BBST algo use
+  - Tree invariant - rule by which a tree must conform after each operation.
+  - Tree rotations - a tree maintains its invariance by a series of tree rotations.
+    - The structure of the tree doesn't matter as long as the binary search tree invariant is maintained.
+- AVL tree is a type of BBST.
+  - Allows logarithmic insertion, deletion, and search operation.
+  - Balanced Factor (BF) - property which keeps the AVL tree balanced.
+  - BF(node) = H(node.right) - H(node.left)
+  - H(x) is the height of node x. Calculated as number of edges between x and the furthest leaf.
+  - A BF of -1, 0, or +1 balances it. An out of balance tree is needed to be tree rotated.
+
+** Priority Queue Videos
+
+- Indexed PQ which allows quick updates and deletions of key-value pairs.
+* Find middle element
+
+#+begin_src java
+val mid = firstIndex + (lastIndex - firstIndex) / 2
+#+end_src
+
+* Boundary traversal of a binary tree
+
+- traverse left
+  - check if the node exist
+    - if contains left
+      - print data
+      - recurse with left
+    - else if contains right
+      - print data
+      - recurse with right
+- traverse right
+  - do as above but in opposite direction
+- traverse leaf
+  - if root exists
+    - if root.left is null and root.right is null then leaf found
+    - else
+      - recurse on left
+      - recurse on right
+
+* Binary search
+
+- while start <= end
+  - find middle element
+  - check if middle = target
+  - if middle > target
+    - search right
+      - start = mid + 1
+    - search left
+      - end = mid - 1
+
+** Level Order Traversal
+
+- print items level by level
+  - in one line
+    - enqueue
+    - while queue is full
+      - dequeue and print and enqueue both left and right
+  - print level by level
+    - enqueue root
+    - enqueue null (null indicates level needs to be changed)
+    - while queue is not empty
+      - P = dequeue & print
+      - Enqueue p.left and right
+      - if P == null
+	- change level/order or print \n
+	- enqueue null
+    - two consecutive nulls means end has reached
+
+** Vertical Order Traversal
+
+- Tree is traversed vertically based on horizontal distance
+- Horizontal distance is the distance from one side of the tree
+  - Root hd = 0
+  - left hd = root hd - 1
+  - right hd = root hd + 1
+- Algorithm = level-order traversal + hash table
+  - enqueue root in the queue
+  - save hd in hash table as key and root node as the value
+  - while until queue is empty
+    - dequeue
+    - add hd of left and right in the hash table
+    - enqueue left and right in the queue
+
+* Top view of a binary tree
+
+- Calculate level order
+- Calculate vertical order
+- if vertical order contains only 1 element then that is part of the top view
+- if vertical order contains more than 1 element then the node which comes earlier in the level order will be part of the top view
+
+* Binary to decimal
+
+100 = 4
+1*2^2 + 0 * 2^1 + 0 * 2^0
+
+- Convert binary linked list to decimal
+  - multiply result by 2 and add node's data to it.
+
+* Decimal to binary
+
+112 = 1110000
+            Remainder
+112/2 = 56  0
+ 56/2 = 28  0
+ 28/2 = 14  0
+ 14/2 = 7   0
+  7/2 = 3   1
+  3/2 = 1   1
+  1/2 = 0   1
+
+* Queue = FIFO
+* Stack = LIFO
+* Singly Linked List
+
+** Find if there is a loop in a singly linked list
+
+- two runners p & q
+- p is slow runner (1 step) and q is the fast runner (2 step)
+- p & q will move in the list. if p or q or q.next is null then there is no loop
+- if p & q ends up pointing to the same element then there is a loop
+
+*** start of a loop
+
+- two slow runners one point at head and one at where the two runners from last problem (check previous note) meet.
+- move them each by one setup until they point to the same element which is the starting point of the loop.
+
+** find middle of the linked list
+
+- run p 1 step and q 2 steps until q or q.next is null which is where you return p as middle.
+
+** Delete node
+
+*** starting node
+
+- q points to the 1 node. p points to the 2nd node
+- make p head and q.next to null.
+
+*** end node
+
+- p and q move one at a time start from 1st and 2nd node
+- when q.next is null we have reached the end
+- set p.next to null
+
+*** middle node
+
+- move p and q one step at a time from 1st and 2nd node
+- when q reaches the item to be deleted then set p.next to q.next
+
+** reverse linked list
+
+- recursive
+- if head is null then return
+- else p is head and q is p.next
+- if q is null then return
+- else recurse with q as head
+
+a b  b c  c d  d e  e null
+p q  p q  p q  p q  p q
+
+- p.next.next or q.next point to p
+- return q
+- Return makes the current iteration end and program continue with previous iteration.
+
+** palindrome 
+
+- split the linked list
+- reverse
+- compare
+
+** intersection
+
+- find length of both the lists
+- calculate d = l1 - l2
+- move d steps ahead in the longer linked list
+- move one step at a time until p == q which is the intersection point.
+
+** Basic operations
+
+- find if there is a loop
+- find the starting point of the loop
+- find middle of the list
+- delete
+- reverse
+- size
+- intersection
+- merge
+
+* Source
+
+- https://www.youtube.com/user/vivekanandkhyade
+- LeetCode
+- Hackerrank
