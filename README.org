@@ -329,3 +329,54 @@ p q  p q  p q  p q  p q
 - https://www.youtube.com/user/vivekanandkhyade
 - LeetCode
 - Hackerrank
+* Graph
+
+- Node or Vertex - fundamental unit of which graphs are formed.
+- Edge - connects two verticies.
+- Graph - representation of set of verticies connected by edges.
+- Types
+  - Undirected - edges are without direction. a connected to b and b connected to a. a -- b.
+  - Directed - edges have direction. a is directed towards b but be is not directed towards b. a -> b.
+- Degree
+  - Undirected - degree of a vertex is # of edges connected to it.
+    Total # of degree = 2 X # of edges
+
+  - Directed
+    In-degree - incoming
+    Out-degree - outgoing
+
+- Graphical Representation
+
+n m
+u v w * m
+
+n - # of nodes
+m - # of edges
+u - 1st vertex
+v - 2nd vertex
+w - weight
+
+  - Adjacency Matrix representation
+    - 1 based indexing - starts with 1
+    - 0 based indexing - starts with 0
+    - n + 1 by n + 1 matrix
+    - Fill with 0
+    - replace 0 with 1 for each pair for both [u][v] = 1 and [v][u] = 1
+  - Adjacency List representation
+    - ArrayList of ArrayList
+    - Use Pair for weighted graph.
+
+5 7
+1 2
+2 3
+...
+
+0 
+1 2
+2 1, 3, 4
+3 2
+...
+
+- Connected Components in a Graph
+
+[[https://www.youtube.com/playlist?list=PLgUwDviBIf0rGEWe64KWas0Nryn7SCRWw][Striver's Graph Series]]
